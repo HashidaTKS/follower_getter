@@ -3,6 +3,7 @@
 ## Overview
 
 Getting information of instagram and twitter account.
+This script does scraping, so pay attention to each site's terms of service.
 
 ## Required
 
