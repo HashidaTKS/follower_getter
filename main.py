@@ -49,11 +49,22 @@ if os.path.isfile("instagram_ids.conf"):
         with open(f'instagram_result_{now_string}.csv', 'w', encoding='utf8') as instagram_result_file:
             instagram_result_file.write('id,post,follower,follow\n')
             for id in instagram_source_file:
-                get_instagram_info(str.strip(id), instagram_result_file)
+                try:
+                    get_instagram_info(str.strip(id), instagram_result_file)
+                except Exception as e:
+                    # [TODO]: logging to file
+                    print(f'Failed to get data of instagram: {id}')
+                    print(str(e))
 
+# [TODO]: Commonize twitter process and instagram process
 if os.path.isfile("twitter_ids.conf"):
     with open("twitter_ids.conf", "r", encoding='utf8') as twitter_source_file:
         with open(f'twitter_result_{now_string}.csv', 'w', encoding='utf8') as twitter_result_file:
             twitter_result_file.write('id,tweet,follower,follow\n')
             for id in twitter_source_file:
-                get_twitter_info(str.strip(id), twitter_result_file)
+                try:
+                    get_twitter_info(str.strip(id), twitter_result_file)
+                except Exception as e:
+                    # [TODO]: logging to file
+                    print(f'Failed to get data of twitter: {id}')
+                    print(str(e))
