@@ -14,4 +14,4 @@ Getting information of instagram and twitter account.
 
 * Adding ids to `instagram_ids.conf` and `twitter_ids.conf`
 * Executing `python main.py`
-* Results are output to `instagram_result_xxxx` and `twitter_result_xxx`
+* Results are written to `instagram_result_xxxx` and `twitter_result_xxx`
