@@ -50,7 +50,10 @@ if os.path.isfile("instagram_ids.conf"):
             instagram_result_file.write('id,post,follower,follow\n')
             for id in instagram_source_file:
                 try:
-                    get_instagram_info(str.strip(id), instagram_result_file)
+                    target_id = str.strip(id)
+                    if len(id) == 0:
+                        continue
+                    get_instagram_info(target_id, instagram_result_file)
                 except Exception as e:
                     # [TODO]: logging to file
                     print(f'Failed to get data of instagram: {id}')
@@ -63,7 +66,10 @@ if os.path.isfile("twitter_ids.conf"):
             twitter_result_file.write('id,tweet,follower,follow\n')
             for id in twitter_source_file:
                 try:
-                    get_twitter_info(str.strip(id), twitter_result_file)
+                    target_id = str.strip(id)
+                    if len(id) == 0:
+                        continue
+                    get_twitter_info(target_id, twitter_result_file)
                 except Exception as e:
                     # [TODO]: logging to file
                     print(f'Failed to get data of twitter: {id}')
