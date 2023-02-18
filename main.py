@@ -2,6 +2,7 @@ from requests_html import HTMLSession
 import json
 import os
 import datetime
+from multiprocessing import Pool
 
 class FollowerGetter:
     def get_html(url):
@@ -9,9 +10,6 @@ class FollowerGetter:
             with session.get(url) as response:
                 response.html.render(sleep=5)
                 return response.html
-
-    def get_info(self, target_id):
-        return ""
     
     def generate_result(self):
         if not os.path.isfile(self.ids_file):
@@ -26,6 +24,7 @@ class FollowerGetter:
                         if len(id) == 0:
                             continue
                         result_file.write(self.get_info(target_id) + "\n")
+                        result_file.flush()
                     except Exception as e:
                         # [TODO]: logging to file
                         print(f'Failed to get info of {self.tag}: {id}')
@@ -68,10 +67,17 @@ class TwitterFollowerGetter(FollowerGetter):
             Exception("Invalid page")
         return f'{target_id},{str(post["userInteractionCount"])},{str(follower["userInteractionCount"])},{str(follow["userInteractionCount"])}'
 
-instances = [
-    InstagramFollowerGetter(),
-    TwitterFollowerGetter(),
-]
 
-for instance in instances:
-    instance.generate_result()
+if __name__ == '__main__':
+    instances = [
+        InstagramFollowerGetter(),
+        TwitterFollowerGetter(),
+    ]
+
+    pool = Pool()
+
+    for instance in instances:
+        pool.apply_async(instance.generate_result)
+
+    pool.close()
+    pool.join()
