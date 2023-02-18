@@ -61,23 +61,12 @@ class TwitterFollowerGetter(FollowerGetter):
         elem = html.find('script[data-testid="UserProfileSchema-test"]')[0]
         json_val = json.loads(elem.text)
         interactionStatistic = json_val["author"]["interactionStatistic"]
-        result_list = [target_id]
         post = next(filter(lambda x: x["name"] == "Tweets", interactionStatistic), None)
-        if post:
-            result_list.append(str(post["userInteractionCount"]))
-        else:
-            Exception("Invalid page")
         follower = next(filter(lambda x: x["name"] == "Follows", interactionStatistic), None)
-        if follower:
-            result_list.append(str(follower["userInteractionCount"]))
-        else:
-            Exception("Invalid page")
         follow = next(filter(lambda x: x["name"] == "Friends", interactionStatistic), None)
-        if follow:
-            result_list.append(str(follow["userInteractionCount"]))
-        else:
+        if not post or not follower or not follow:
             Exception("Invalid page")
-        return ','.join(result_list)
+        return f'{target_id},{str(post["userInteractionCount"])},{str(follower["userInteractionCount"])},{str(follow["userInteractionCount"])}'
 
 instances = [
     InstagramFollowerGetter(),
