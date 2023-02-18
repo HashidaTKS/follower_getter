@@ -28,7 +28,7 @@ class FollowerGetter:
                         result_file.write(self.get_info(target_id) + "\n")
                     except Exception as e:
                         # [TODO]: logging to file
-                        print(f'Failed to get data of {self.tag}: {id}')
+                        print(f'Failed to get info of {self.tag}: {id}')
                         print(str(e))
 
 class InstagramFollowerGetter(FollowerGetter):
